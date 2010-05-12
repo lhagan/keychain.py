@@ -14,6 +14,8 @@ Muffin Research Labs. http://muffinresearch.co.uk/
 Refined by Steve Webster on 2009-01-21
 Dynamic Flash. http://dynamicflash.com
 
+Further edits by Luke Hagan on 2010-05-10
+
 Copyright (c) 2008, Stuart J Colville and Steve Webster
 All rights reserved.
 
@@ -116,7 +118,7 @@ class Keychain:
 
 
     def get_generic_password(self, keychain, account, servicename=None):
-        """Returns account information from specified keychain item """
+        """Returns account information from specified keychain item (generic password item)"""
 
         if self.check_keychain_exists(keychain):
             account = account and '-a %s' % (account,) or ''
@@ -132,6 +134,34 @@ class Keychain:
                 password = RXPASS.search(result[1])
                 service = RXSERVICE.search(result[1])
                 
+                if account and password:
+                    data = {
+                        "account":account.group(1),
+                        "password":password.group(1),
+                    }
+                    if service:
+                        data.update({"service": service.group(1)})
+                    return data
+                else:
+                    return False, 'The specified item could not be found'
+
+    def get_internet_password(self, keychain, account, label):
+        """Returns account information from specified keychain item (internet password item)"""
+
+        if self.check_keychain_exists(keychain):
+            account = account and '-a %s' % (account,) or ''
+            label = label and '-l %s' % (label,) or ''
+            result = commands.getstatusoutput(
+                "security find-internet-password -g %s %s %s.keychain" % \
+                    (account, label, keychain)
+            )
+            if result[0]:
+                return False, 'The specified item could not be found'
+            else:
+                account = RXACCOUNT.search(result[1])
+                password = RXPASS.search(result[1])
+                service = RXSERVICE.search(result[1])
+
                 if account and password:
                     data = {
                         "account":account.group(1),

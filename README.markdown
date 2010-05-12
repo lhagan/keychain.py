@@ -1,11 +1,35 @@
 keychain.py
 ===========
 
-A python module for accessing Mac OS X keychain data from Python. This is a fork of [Stuart Colville's](http://muffinresearch.co.uk) original [Keychain.py](https://launchpad.net/keychain.py/) project, with additional support for querying keys for specific service names rather than just account names.
+A python module for accessing Mac OS X keychain data from Python. This is a fork of [Stuart Colville's](http://muffinresearch.co.uk) original [Keychain.py](https://launchpad.net/keychain.py/) project, with additional support for querying keys for specific service names rather than just account names and support for retrieving internet password items.
 
+Usage
+------------
+
+Here are some simple usage examples:
+    
+    # import & instantiate
+    import keychain
+    k = keychain.Keychain();
+    
+    # create a new keychain
+    k.create_keychain('keychainname','password')
+    
+    # list available keychains
+    k.list_keychains()
+    
+    # set & get a generic password
+    k.set_generic_password('keychainname', 'accountname', 'password')
+    k.get_generic_password('keychainname', 'accountname')
+    
+    # get an internet password (web address is optional, but needed if 'accountname' is used on multiple sites/servers)
+    k.get_internet_password('keychainname', 'accountname', 'www.google.com')
+    
 
 Installation
 ------------
+
+Note the keychain module does not __require__ installation, you can simply put the file @keychain.py@ in the same folder as your script and import it as above.
 
 If you've already installed [setuptools](http://pypi.python.org/pypi/setuptools) you can download and install the keychain module with the following command:
 
