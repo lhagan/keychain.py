@@ -29,7 +29,7 @@ Here are some simple usage examples:
 Installation
 ------------
 
-Note the keychain module does not __require__ installation, you can simply put the file @keychain.py@ in the same folder as your script and import it as above.
+Note the keychain module does not __require__ installation, you can simply put the file `keychain.py` in the same folder as your script and import it as above.
 
 If you've already installed [setuptools](http://pypi.python.org/pypi/setuptools) you can download and install the keychain module with the following command:
 
